@@ -1,0 +1,13 @@
+gradio
+python-dotenv
+google-generativeai
+langchain
+langchain-community
+langchain-text-splitters
+langchain-chroma
+chromadb
+sentence-transformers
+pandas
+numpy
+pillow
+

@@ -1,0 +1,21 @@
+Refund Policy
+
+Customers may be eligible for a refund when the product is damaged, missing, incorrect, or not delivered within the expected delivery window.
+
+Refunds are generally approved when:
+- The customer reports the issue within the valid return/refund window.
+- The order status confirms the item was delivered, delayed, missing, or not delivered.
+- The customer provides clear evidence such as product images, package images, or delivery details.
+- The customer has low or medium claim risk.
+
+Refunds may require manual review when:
+- The order value is high.
+- The customer has submitted multiple previous claims.
+- The image evidence is unclear or does not match the complaint.
+- The customer is outside the return/refund window.
+- The delivery status conflicts with the customer complaint.
+
+Refunds should be rejected or escalated when:
+- The claim appears fraudulent.
+- The product damage is not visible and no supporting evidence is provided.
+- The claim is made far outside the allowed policy window without valid reason.

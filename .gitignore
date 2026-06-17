@@ -1,0 +1,24 @@
+.env
+ecomclaim_env/
+logs/
+vectorstore/
+__pycache__/
+*.pyc
+.DS_Store
+# Secrets
+.env
+
+# Virtual env
+_ecomclaim_env/
+ecomclaim_env/
+
+# Runtime outputs
+logs/
+vectorstore/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
