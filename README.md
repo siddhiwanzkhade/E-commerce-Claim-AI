@@ -17,4 +17,8 @@ E-commerce Claim AI is an agentic multimodal RAG system designed to improve cust
 
 <img width="2534" height="1376" alt="image" src="https://github.com/user-attachments/assets/0b764d6d-00d8-4091-8938-35647c31d741" />
 <img width="1266" height="713" alt="image" src="https://github.com/user-attachments/assets/3a68ab96-5454-4c09-8aa3-6d06a439b0fa" />
+<img width="1280" height="706" alt="Screenshot 2026-05-31 at 3 55 26 PM" src="https://github.com/user-attachments/assets/b6ab07d8-6f46-4024-94e3-f223b22a6185" />
+<img width="1277" height="712" alt="Screenshot 2026-05-31 at 3 55 36 PM" src="https://github.com/user-attachments/assets/4f2acc01-21dd-4c0e-9eaa-f3a6dde61450" />
+
+
 
