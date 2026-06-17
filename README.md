@@ -92,13 +92,13 @@ python app.py
 The system returns a structured claim investigation report with agent outputs, risk signals, and the final recommendation.
 
 ## Tech Stack
-Python
-LangGraph
-Pydantic
-LLMs
-Vision-Language Models
-Gradio
-Rule-based risk and policy logic
+- Python
+- LangGraph
+- Pydantic
+- LLMs
+- Vision-Language Models
+- Gradio
+- Rule-based risk and policy logic
 
 ## Goal
 E-commerce-Claim-AI helps e-commerce teams make faster, safer, and more evidence-aware claim decisions by combining multimodal analysis, dynamic agent routing, and return-abuse risk detection.
