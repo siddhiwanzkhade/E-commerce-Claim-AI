@@ -1,112 +1,93 @@
 # Claims-Resolve AI
 
-E-commerce-Claim-AI is a multimodal agentic AI solution designed to streamline and strengthen e-commerce claim investigation. By leveraging AI agents, vision-language models, NLP, and risk scoring, it helps evaluate refund, replacement, damaged-product, wrong-item, and missing-package claims with better accuracy and decision support.
+Claims-Resolve AI is an agentic, multimodal solution designed to streamline and automate e-commerce refund and replacement claims. By leveraging specialized AI agents through LangGraph, it enhances efficiency, accuracy, and policy compliance in claims management.
 
 ## Features
 
-- **Automated Claim Investigation**: Uses AI agents to assess customer claims, reduce manual review effort, and speed up refund/replacement decisions.
-
-- **Multimodal Image Analysis**: Employs vision-language models to evaluate uploaded product or package images for damage, missing parts, packaging issues, and evidence quality.
-
-- **NLP-Based Complaint Understanding**: Analyzes customer-submitted complaints to extract issue type, urgency, sentiment, requested action, and missing information.
-
-- **Return-Abuse Risk Detection**: Identifies potentially suspicious claims using order value, claim history, return-window status, evidence quality, and image-text mismatch signals.
-
-- **Dynamic Agent Routing**: Uses a Router/Supervisor Agent to call only the agents needed for each claim instead of running every case through the same fixed workflow.
-
-- **Image-Text Mismatch Detection**: Compares customer complaints with uploaded visual evidence to flag inconsistent or unclear claims.
-
-- **Evidence Request Handling**: Requests additional proof when the claim cannot be safely approved or rejected.
-
-- **Decision Support**: Recommends refund, replacement, rejection, evidence request, or human escalation based on claim context and risk level.
+* **Automated Claim Processing**: Utilizes AI capabilities for complaint analysis, image-based damage assessment, policy retrieval, and risk/mismatch detection to resolve claims efficiently.
+* **Image Analysis**: Employs Vision Language Models (Groq Vision) to evaluate uploaded product/package images for damage type, severity, and evidence quality.
+* **Natural Language Processing**: Analyzes customer complaint text to extract issue type, requested action, sentiment, and urgency relevant to the claim.
+* **Policy-RAG Retrieval**: Retrieves retailer-specific policy clauses via Pinecone + SentenceTransformer embeddings to ground every decision in actual policy text rather than guesswork.
+* **Risk & Mismatch Detection**: Flags inconsistencies between complaint, order, and evidence signals, and scores overall claim risk to safeguard against potentially fraudulent or unsupported claims.
+* **Schema-Validated Outputs**: Every agent's output is validated against a Pydantic schema before moving forward, preventing malformed or hallucinated outputs from propagating.
+* **Manual Review Fallback**: Routes unclear, unsupported, missing-evidence, or high-risk claims to manual review instead of blindly approving them.
+* **Gradio Dashboard**: Provides a local interface for submitting complaints, product images, retailer selection, and order metadata.
 
 ## Agent Architecture
 
-E-commerce-Claim-AI uses multiple specialized agents:
+* **LangGraph Supervisor**: Controls claim routing and decides which step runs next.
+* **Complaint Agent**: Extracts issue type, requested action, sentiment, urgency, and summary from customer text.
+* **Order Agent**: Evaluates order status, delivery status, return window, order value, and claim history.
+* **Vision Agent**: Analyzes product/package images for visible damage evidence.
+* **Policy RAG Agent**: Retrieves relevant retailer-specific policy clauses from Pinecone.
+* **Risk Scoring Agent**: Computes claim risk and identifies mismatch/risk flags.
+* **Resolution Agent**: Generates the final claim decision using complaint, order, vision, policy, and risk signals.
 
-- **Router Agent**: Decides which agents should be called for each claim.
-- **Complaint Agent**: Extracts claim type, sentiment, urgency, and requested action.
-- **Order Agent**: Validates order status, delivery status, return window, product value, and claim history.
-- **Vision Agent**: Analyzes uploaded product/package images.
-- **Mismatch Agent**: Detects inconsistencies between complaint text, images, and order data.
-- **Risk Agent**: Scores return-abuse risk and escalation need.
-- **Evidence Agent**: Requests missing or unclear proof.
-- **Resolution Agent**: Generates the final claim recommendation.
 
+## Claim Resolution Flow
+
+```text
+User Input → Input Validation → Complaint Agent → Order Agent → Vision Agent → Policy RAG Agent → Risk Scoring Agent → Resolution Agent → Final Decision
+```
+```mermaid
+flowchart TD
+    A["Claim submitted<br/>Item arrived cracked, replacement requested"] --> B["Complaint Agent<br/>issue: damaged, action: replacement"]
+    B --> C["Order Agent<br/>delivered, within return window"]
+    C --> D["Vision Agent<br/>crack detected, evidence quality: high"]
+    D --> E["Schema validation<br/>VisionAnalysis"]
+    E --> F["Policy RAG Agent<br/>retrieves replacement policy clause"]
+    F --> G["Risk Scoring Agent<br/>low risk, no mismatch flags"]
+    G --> H["Resolution Agent<br/>fuses all agent outputs"]
+    H --> I["approve_replacement"]
+
+    style A fill:#f1efe8,stroke:#888780
+    style I fill:#eaf3de,stroke:#639922
+```
 ## Example Claim Paths
 
 ```text
-Wrong size claim
-→ Complaint Agent + Order Agent + Resolution Agent
+Damaged item with replacement request
+→ Complaint Agent → Order Agent → Vision Agent → Policy RAG Agent → Risk Scoring Agent → Resolution Agent
+→ approve_replacement
 
-Damaged item with image
-→ Complaint Agent + Order Agent + Vision Agent + Risk Agent + Resolution Agent
+Damaged item with refund request
+→ Complaint Agent → Order Agent → Vision Agent → Policy RAG Agent → Risk Scoring Agent → Resolution Agent
+→ approve_refund
 
-Damaged item without image
-→ Complaint Agent + Order Agent + Evidence Agent
+Damaged item without image evidence
+→ Input Validation → LangGraph Supervisor
+→ request_visual_evidence
 
-Image-text mismatch
-→ Complaint Agent + Vision Agent + Mismatch Agent + Risk Agent + Human Escalation
-
-High-value repeated claim
-→ Complaint Agent + Order Agent + Risk Agent + Human Escalation
+High-risk or unclear claim
+→ Complaint Agent → Order Agent → Vision Agent → Policy RAG Agent → Risk Scoring Agent → Resolution Agent
+→ manual_review
 ```
 
-## Installation
+## Tech Stack
 
-1. Clone the repository:
+| Component | Tool |
+|---|---|
+| Agent orchestration | LangGraph, LangChain |
+| Complaint analysis (LLM) | Groq-hosted LLM |
+| Image analysis (VLM) | Groq Vision |
+| Policy embeddings | `sentence-transformers/all-MiniLM-L6-v2` |
+| Vector database | Pinecone |
+| Output validation | Pydantic |
+| PDF ingestion | PyPDF |
+| Dashboard | Gradio |
 
-```bash
-git clone https://github.com/siddhiwanzkhade/E-commerce-Claim-AI.git
-```
-
-2.Navigate to the project directory
-```bash
-cd E-commerce-Claim-AI
-```
-
-3. Create and activate virtual environment
- ```bash
-python -m venv claimguard_env
-source claimguard_env/bin/activate
-```
-4. Install Dependencies
- ```bash
-pip install -r requirements.txt
-```
-5. Set up environment variables:
-Create a .env file in the project root and add the required API keys and model configuration.
 
 
 ## Supported Models
-E-commerce-Claim-AI supports LLMs for complaint analysis, routing, risk reasoning, and final recommendation generation. It also supports vision-language models for product/package image analysis.
 
-## Usage
-Launch the Gradio dashboard:
-python app.py
-- Use the interface to submit:
-- Customer complaint
-- Order details
-- Product/package images
-- Claim metadata
-The system returns a structured claim investigation report with agent outputs, risk signals, and the final recommendation.
+Claims-Resolve AI uses `llama-3.1-8b-instant` through Groq for complaint understanding and `meta-llama/llama-4-scout-17b-16e-instruct` through Groq Vision for product/package image analysis.
 
-## Tech Stack
-- Python
-- LangGraph
-- Pydantic
-- LLMs
-- Vision-Language Models
-- Gradio
-- Rule-based risk and policy logic
+The Complaint Agent extracts issue type, requested action, sentiment, urgency, and summary from customer text. The Vision Agent detects visible damage, damage type, severity, evidence quality, and confidence from uploaded images.
 
-## Goal
-E-commerce-Claim-AI helps e-commerce teams make faster, safer, and more evidence-aware claim decisions by combining multimodal analysis, dynamic agent routing, and return-abuse risk detection.
+For Policy-RAG retrieval, the system uses `sentence-transformers/all-MiniLM-L6-v2` embeddings with Pinecone as the vector database. An optional local MLX vision backend using `mlx-community/Qwen2.5-VL-3B-Instruct-4bit` is included as an extension, but Groq Vision is the primary working backend.
 
-<img width="2534" height="1376" alt="image" src="https://github.com/user-attachments/assets/0b764d6d-00d8-4091-8938-35647c31d741" />
-<img width="1266" height="713" alt="image" src="https://github.com/user-attachments/assets/3a68ab96-5454-4c09-8aa3-6d06a439b0fa" />
-<img width="1280" height="706" alt="Screenshot 2026-05-31 at 3 55 26 PM" src="https://github.com/user-attachments/assets/b6ab07d8-6f46-4024-94e3-f223b22a6185" />
-<img width="1277" height="712" alt="Screenshot 2026-05-31 at 3 55 36 PM" src="https://github.com/user-attachments/assets/4f2acc01-21dd-4c0e-9eaa-f3a6dde61450" />
+The workflow is orchestrated using LangGraph and structured outputs are validated using Pydantic.
 
+## Installation
 
-
+1. Clone the Repository:
