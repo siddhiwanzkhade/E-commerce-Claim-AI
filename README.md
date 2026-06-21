@@ -6,7 +6,7 @@ Claims-Resolve AI is an agentic, multimodal solution designed to streamline and 
 
 * **Automated Claim Processing**: Utilizes AI capabilities for complaint analysis, image-based damage assessment, policy retrieval, and risk/mismatch detection to resolve claims efficiently.
 * **Image Analysis**: Employs Vision Language Models (Groq Vision) to evaluate uploaded product/package images for damage type, severity, and evidence quality.
-* **Natural Language Processing**: Analyzes customer complaint text to extract issue type, requested action, sentiment, and urgency relevant to the claim.
+* **Natural Language Processing**: Analyzes customer complaint text to extract issue type, requested action, sentiment( Positive / Negative / Neutral) , and urgency relevant to the claim.
 * **Policy-RAG Retrieval**: Retrieves retailer-specific policy clauses via Pinecone + SentenceTransformer embeddings to ground every decision in actual policy text rather than guesswork.
 * **Risk & Mismatch Detection**: Flags inconsistencies between complaint, order, and evidence signals, and scores overall claim risk to safeguard against potentially fraudulent or unsupported claims.
 * **Schema-Validated Outputs**: Every agent's output is validated against a Pydantic schema before moving forward, preventing malformed or hallucinated outputs from propagating.
