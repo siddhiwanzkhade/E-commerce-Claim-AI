@@ -1,6 +1,6 @@
-# Claims-Resolve-AI
+# Resolve-Claim AI
 
-Claims-Resolve AI is an agentic, multimodal solution designed to streamline and automate e-commerce refund and replacement claims. By leveraging specialized AI agents through LangGraph, it enhances efficiency, accuracy, and policy compliance in claims management.
+Resolve-Claim AI is an agentic, multimodal solution designed to streamline and automate e-commerce refund and replacement claims. By leveraging specialized AI agents through LangGraph, it enhances efficiency, accuracy, and policy compliance in claims management.
 
 ## Features
 
@@ -48,7 +48,7 @@ flowchart LR
 
 ## Supported Models
 
-Claims-Resolve AI uses `llama-3.1-8b-instant` through Groq for complaint understanding and `meta-llama/llama-4-scout-17b-16e-instruct` through Groq Vision for product/package image analysis.
+Resolve-Claim AI uses `llama-3.1-8b-instant` through Groq for complaint understanding and `meta-llama/llama-4-scout-17b-16e-instruct` through Groq Vision for product/package image analysis.
 
 The Complaint Agent extracts issue type, requested action, sentiment (positive / negative /neutral) , urgency, and summary from customer text. The Vision Agent detects visible damage, damage type, severity, evidence quality, and confidence from uploaded images.                                                
 
@@ -61,17 +61,17 @@ The workflow is orchestrated using LangGraph and structured outputs are validate
 1. Clone the Repository:
   Open your terminal or command prompt and execute:
    ```
-    git clone https://github.com/siddhiwanzkhade/Claims-Resolve-AI.git
+    git clone https://github.com/siddhiwanzkhade/Resolve-Claim-AI.git
    ```
 2. Navigate to Project Directory
     ```
-    cd Claims-Resolve-AI
+    cd Resolve-Claim-AI
     ```
 3. Set Up a Virtual Environment (Optional but Recommended):
     Create and activate a virtual environment:
     ```
-    python -m venv claims_resolve_env
-    source claims_resolve_env/bin/activate
+    python -m venv resolve_claim_env
+    source resolve_claim_env/bin/activate
     ```
     
 4. Install Dependencies:
